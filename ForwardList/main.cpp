@@ -103,10 +103,13 @@ public:
 
 	void erase(int Data, int index)
 	{
+		if (index == 0)return pop_front();
+		Element* buffer;
 		Element* Temp = Head;
 		for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
+		buffer = Temp->pNext->pNext;
 		delete Temp->pNext;
-		Temp->pNext = ;
+		Temp->pNext = buffer;
 		size--;
 
 	}
@@ -146,7 +149,7 @@ void main()
 	//list.print();
 	//list.pop_back();
 	int value = 3333;
-	int index = 2;
+	int index = 4;
 	list.print();
 	list.erase(value,index);
 	list.print();
