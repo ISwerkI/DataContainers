@@ -30,6 +30,10 @@ class ForwardList
 	Element* Head; // Голова списка - является точкой входа в список
 	int size;
 public:
+	int get_size()const
+	{
+		return size;
+	}
 	ForwardList()
 	{
 		//Конструктор по умолчанию создает пустой список
@@ -38,11 +42,22 @@ public:
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
+	explicit ForwardList(int size) :ForwardList()
+	{
+		while (size--)push_front(0);
+		cout << "1argLConstructor:\t" << this << endl;
+	}
 	~ForwardList()
 	{
 		cout << "LDestructor:\t" << this << endl;
 	}
 
+	int& operator[](int index)
+	{
+		Element* Temp = Head;
+		for (int j = 0; j < index; j++)Temp = Temp->pNext;
+		return Temp->Data;
+	}
 	//			Ading elements
 	void push_front(int Data)
 	{
@@ -126,10 +141,12 @@ public:
 		cout << "Количество элементов: " <<size<< endl;
 		cout << "Общее количество элементов: " <<Element::counter<< endl;
 	}
+	
 };
 
-#define BASE_CHECK
+//#define BASE_CHECK
 //#define SIZE_CHECK
+#define HOME_WORK_1
 
 void main()
 {
@@ -172,5 +189,19 @@ void main()
 	list2.print();
 #endif // SIZE_CHECK
 
+#ifdef HOME_WORK_1
+	ForwardList list(5);  //Implicit conversion from 'int' to 'ForwardList'
+						// Неявное преобразование из 'int' to 'ForwardList'
+	list.print();
+	for (int i = 0; i < list.get_size(); i++)
+	{
+		list[i] = rand() % 100;
+	}
+	for (int i = 0; i < list.get_size(); i++)
+	{
+		cout << list[i] << tab;
+	}
+	cout << endl;
+#endif // HOME_WORK_1
 
 }
