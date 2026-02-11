@@ -47,34 +47,58 @@ public:
 		while (size--)push_front(0);
 		cout << "1argLConstructor:\t" << this << endl;
 	}
+	ForwardList(const ForwardList& other) :ForwardList()
+	{
+		//for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
+			//push_back(Temp->Data);
+		*this = other;
+		cout << "LCopyConstructor:\t" << this << endl;
+	}
 	~ForwardList()
 	{
+		while (Head)pop_front();
 		cout << "LDestructor:\t" << this << endl;
 	}
-
+	//			Operators
+	ForwardList& operator=(const ForwardList& other)
+	{
+		if (this == &other)return *this;
+		while (Head)pop_front();
+		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
+			push_back(Temp->Data);
+		return *this;
+	}
 	int& operator[](int index)
 	{
 		Element* Temp = Head;
 		for (int j = 0; j < index; j++)Temp = Temp->pNext;
 		return Temp->Data;
 	}
+	ForwardList& operator+(const ForwardList& other)
+	{
+		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
+			push_back(Temp->Data);
+		return *this;
+	}
 	//			Ading elements
 	void push_front(int Data)
 	{
-		Element* New = new Element(Data);
-		New->pNext = Head;
-		Head = New;
+		//Element* New = new Element(Data);
+		//New->pNext = Head;
+		//Head = New;
+
+		Head = new Element(Data, Head);
 
 		size++;
 	}
 	
 	void push_back(int Data)
 	{
-		Element* New = new Element(Data);
+		if (Head == nullptr) return push_front(Data);
+		//Element* New = new Element(Data);
 		Element* Temp = Head;
 		while (Temp->pNext)Temp = Temp->pNext;
-		Temp->pNext = New;
-		New->pNext = nullptr;
+		Temp->pNext = new Element(Data);
 		size++;
 	}
 	//			Removing elements
@@ -110,8 +134,8 @@ public:
 			if (Temp->pNext == nullptr)break;
 			Temp = Temp->pNext;
 		}
-		New->pNext = Temp->pNext;
-		Temp->pNext = New;
+		//New->pNext = Temp->pNext;
+		Temp->pNext = new Element(Data,Temp->pNext);
 
 		size++;
 	}
@@ -131,13 +155,15 @@ public:
 	//			Metods
 	void print()const
 	{
-		Element* Temp = Head;	//Temp - итератор
+		/*Element* Temp = Head;	//Temp - итератор
 		//Итератор - это указатель, с помощью которого можно перемещаться по элементам структуры данных
 		while (Temp)
 		{
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 			Temp = Temp->pNext;
-		}
+		}*/
+		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
+			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 		cout << "Количество элементов: " <<size<< endl;
 		cout << "Общее количество элементов: " <<Element::counter<< endl;
 	}
@@ -146,7 +172,7 @@ public:
 
 //#define BASE_CHECK
 //#define SIZE_CHECK
-#define HOME_WORK_1
+//#define HOME_WORK_1
 
 void main()
 {
@@ -159,16 +185,18 @@ void main()
 	ForwardList list;
 	for (int i = 0; i < n; i++)
 	{
-		list.push_front(rand() % 100);
+		//list.push_front(rand() % 100);
+		list.push_back(rand() % 100);
 	}
+	int value = 3333;
+	int index = 4;
 	//list.print();
 	//list.pop_front();
 	//list.print();
 	//list.pop_back();
-	int value = 3333;
-	int index = 4;
-	list.print();
-	list.erase(value,index);
+	//list.print();
+	//list.erase(value,index);
+	//list.insert(value, index);
 	list.print();
 #endif // BASE_CHECK
 
@@ -204,4 +232,22 @@ void main()
 	cout << endl;
 #endif // HOME_WORK_1
 
+	ForwardList list1;
+	list1.push_back(3);
+	list1.push_back(5);
+	list1.push_back(8);
+	list1.push_back(13);
+	list1.push_back(21);
+	list1.print();
+
+	ForwardList list2;
+	list2.push_back(34);
+	list2.push_back(55);
+	list2.push_back(489);
+
+	//ForwardList list2 = list1;
+	ForwardList list3(list2);
+	list3.print();
+	list3 = list1 + list2; //copyAssinment
+	list3.print();
 }
