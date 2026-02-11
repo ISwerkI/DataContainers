@@ -29,6 +29,7 @@ public:
 #endif // DEBUG
 	}
 	friend class ForwardList;
+	friend ForwardList operator+(const ForwardList& left, const ForwardList& right);
 };
 int Element::counter = 0;
 class ForwardList
@@ -36,6 +37,10 @@ class ForwardList
 	Element* Head; // Голова списка - является точкой входа в список
 	int size;
 public:
+	Element* get_head()const
+	{
+		return Head;
+	}
 	int get_size()const
 	{
 		return size;
@@ -60,6 +65,15 @@ public:
 		*this = other;
 		cout << "LCopyConstructor:\t" << this << endl;
 	}
+	ForwardList(ForwardList&& other): ForwardList()
+	{
+		/*this->Head = other.Head;
+		this->size = other.size;
+		other.Head = nullptr;
+		other.size = 0;*/
+		*this = std::move(other);
+		cout << "LMoveConstructor:\t" << this << endl;
+	}
 	~ForwardList()
 	{
 		while (Head)pop_front();
@@ -74,6 +88,18 @@ public:
 			push_front(Temp->Data);
 		cout << "LCopyAssignment:\t" << this << endl;
 		return *this;
+	}
+	ForwardList& operator=(ForwardList&& other)
+	{
+		if (this == &other)return *this;
+		while (Head)pop_front();
+		this->Head = other.Head;
+		this->size = other.size;
+		other.Head = nullptr;
+		other.size = 0;
+		cout << "MoveAssignment:\t" << this << endl;
+		return *this;
+
 	}
 	int& operator[](int index)
 	{
@@ -188,11 +214,19 @@ public:
 	
 };
 
+ForwardList operator+(const ForwardList& left, const ForwardList& right)
+{
+	ForwardList result = left;
+	for (Element* Temp = right.get_head(); Temp; Temp = Temp->pNext)
+		result.push_back(Temp->Data);
+	return result;
+}
+
 //#define BASE_CHECK
 //#define SIZE_CHECK
 //#define HOME_WORK_1
 //#define COPY_SEMANTIC_CHECK
-#define PERFORMANCE_CHECK
+//#define PERFORMANCE_CHECK
 
 void main()
 {
@@ -295,6 +329,22 @@ void main()
 	cout << delimiter << endl;
 	//list2.print();
 #endif // PERFORMANCE_CHECK
+
+	ForwardList list1;
+	list1.push_back(3);
+	list1.push_back(5);
+	list1.push_back(8);
+	list1.push_back(13);
+	list1.push_back(21);
+
+	ForwardList list2;
+	list2.push_back(34);
+	list2.push_back(55);
+	list2.push_back(89);
+
+	ForwardList list3 = list1 + list2;
+
+	list3.print();
 
 
 }
