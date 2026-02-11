@@ -1,10 +1,11 @@
 ﻿#include <iostream>
+#include<ctime>
 using std::cin;
 using std::cout;
 using std::endl;
 
 #define tab "\t"
-#define delimeter "\n------------------------------------------------------\n"
+#define delimiter "\n------------------------------------------------------\n"
 
 class Element
 {
@@ -15,12 +16,17 @@ public:
 	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
 	{
 		counter++;
+#ifdef DEBUG
 		cout << "EConstructor:\t" << this << endl;
+#endif // DEBUG
+
 	}
 	~Element()
 	{
 		counter--;
+#ifdef DEBUG
 		cout << "EDestructor:\t" << this << endl;
+#endif // DEBUG
 	}
 	friend class ForwardList;
 };
@@ -65,7 +71,8 @@ public:
 		if (this == &other)return *this;
 		while (Head)pop_front();
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
-			push_back(Temp->Data);
+			push_front(Temp->Data);
+		cout << "LCopyAssignment:\t" << this << endl;
 		return *this;
 	}
 	int& operator[](int index)
@@ -74,7 +81,7 @@ public:
 		for (int j = 0; j < index; j++)Temp = Temp->pNext;
 		return Temp->Data;
 	}
-	ForwardList& operator+(const ForwardList& other)
+	ForwardList& operator+=(const ForwardList& other)
 	{
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
 			push_back(Temp->Data);
@@ -153,6 +160,17 @@ public:
 
 	}
 	//			Metods
+	void reverse()
+	{
+		ForwardList reverse;
+		while (Head)
+		{
+			reverse.push_front(Head->Data);
+			pop_front();
+		}
+		this->Head = reverse.Head;
+		reverse.Head = nullptr;
+	}
 	void print()const
 	{
 		/*Element* Temp = Head;	//Temp - итератор
@@ -173,6 +191,8 @@ public:
 //#define BASE_CHECK
 //#define SIZE_CHECK
 //#define HOME_WORK_1
+//#define COPY_SEMANTIC_CHECK
+#define PERFORMANCE_CHECK
 
 void main()
 {
@@ -232,6 +252,7 @@ void main()
 	cout << endl;
 #endif // HOME_WORK_1
 
+#ifdef COPY_SEMANTIC_CHECK
 	ForwardList list1;
 	list1.push_back(3);
 	list1.push_back(5);
@@ -248,6 +269,32 @@ void main()
 	//ForwardList list2 = list1;
 	ForwardList list3(list2);
 	list3.print();
-	list3 = list1 + list2; //copyAssinment
+	list3 += list1; //copyAssinment
 	list3.print();
+#endif // COPY_SEMANTIC_CHECK
+
+#ifdef PERFORMANCE_CHECK
+	int n;
+	cout << "Введите размер списка:"; cin >> n;
+	ForwardList list1;
+	clock_t start = clock();
+	for (int i = 0; i < n; i++)
+	{
+		list1.push_front(rand() % 100);
+	}
+	clock_t end = clock();
+	//list1.print();
+	cout << delimiter << endl;
+	cout << "list1 заполнен за "<< double(end-start) / CLOCKS_PER_SEC << endl;
+	cout << delimiter << endl;
+	start = clock();
+	ForwardList list2 = list1;
+	end = clock();
+	cout << delimiter << endl;
+	cout << "list2 ready " << double(end - start) / CLOCKS_PER_SEC << endl;
+	cout << delimiter << endl;
+	//list2.print();
+#endif // PERFORMANCE_CHECK
+
+
 }
