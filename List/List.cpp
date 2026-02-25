@@ -7,6 +7,7 @@ class Element
 {
 	int Data;		
 	Element* pNext;	
+	Element* pPrev;	
 	static int counter;
 public:
 	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
