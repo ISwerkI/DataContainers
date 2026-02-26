@@ -29,6 +29,7 @@ public:
 #endif // DEBUG
 	}
 	friend class ForwardList;
+	friend class Iterator;
 	friend ForwardList operator+(const ForwardList& left, const ForwardList& right);
 };
 class Iterator
@@ -42,6 +43,23 @@ public:
 	~Iterator()
 	{
 		cout << "ItDestructor:\t" << this << endl;
+	}
+	Iterator& operator++()
+	{
+		Temp = Temp->pNext;
+		return *this;
+	}
+	bool operator==(const Iterator& other)const
+	{
+		return this->Temp == other.Temp;
+	}
+	bool operator!=(const Iterator& other)const
+	{
+		return this->Temp != other.Temp;
+	}
+	int operator*()
+	{
+		return Temp->Data;
 	}
 };
 int Element::counter = 0;
