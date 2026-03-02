@@ -47,6 +47,12 @@ public:
 			Temp = Temp->pNext;
 			return *this;
 		}
+		Iterator operator++(int)
+		{
+			Iterator old = *this;
+			Temp = Temp->pNext;
+			return old;
+		}
 		bool operator==(const Iterator& other)const
 		{
 			return this->Temp == other.Temp;
@@ -64,7 +70,55 @@ public:
 			Temp = Temp->pPrev;
 			return *this;
 		}
+		Iterator operator--(int)
+		{
+			Iterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
 		friend class List::Element;
+	};
+	class ReverseIterator
+	{
+		Element* Temp;
+	public:
+		ReverseIterator(Element* Temp = nullptr) :Temp(Temp){}
+		~ReverseIterator() {}
+		ReverseIterator& operator++()
+		{
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		ReverseIterator operator++(int)
+		{
+			ReverseIterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
+		ReverseIterator& operator--()
+		{
+			Temp = Temp->pPrev;
+			return *this;
+		}
+		ReverseIterator operator--(int)
+		{
+			ReverseIterator old = *this;
+			Temp = Temp->pPrev;
+			return old;
+		}
+		bool operator==(const ReverseIterator& other)const
+		{
+			return this->Temp == other.Temp;
+		}
+		bool operator!=(const ReverseIterator& other)const
+		{
+			return this->Temp != other.Temp;
+		}
+		int operator*()const
+		{
+			return Temp->Data;
+		}
+
 	};
 	List()
 	{
@@ -88,6 +142,14 @@ public:
 		return Head;
 	}
 	Iterator end()
+	{
+		return nullptr;
+	}
+	ReverseIterator rbegin()
+	{
+		return Tail;
+	}
+	ReverseIterator rend()
 	{
 		return nullptr;
 	}
@@ -243,5 +305,10 @@ void main()
 	List list = { 3, 5, 8, 13, 21 };
 	for (int i : list)cout << i << tab; cout << endl;
 
+	for (List::ReverseIterator it = list.rbegin(); it != list.rend(); it++)
+	{
+		cout << *it << tab;
+	}
+	cout << endl;
 
 }
