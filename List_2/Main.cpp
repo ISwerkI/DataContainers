@@ -4,6 +4,7 @@ using namespace std;
 #define tab "\t"
 #define delimiter "\n-------------------------------------------------"
 
+
 class List
 {
 	class Element
@@ -22,7 +23,9 @@ class List
 			cout << "EDestructor:\t" << this << endl;
 		}
 		friend class List;
-	}*Head, * Tail;	//Ёкземпл€ры класса можно объ€вл€ть непосредственно после описани€ класса
+		friend class Iterator;
+	}
+	*Head, * Tail;	//Ёкземпл€ры класса можно объ€вл€ть непосредственно после описани€ класса
 	//¬ одном выражении можно объ€вить несколько переменных одного типа, один раз указав тип и перечислив имена объ€вл€емых переменных через зап€тую.
 	size_t size;//size_t - typedef на "unsigned int".
 public:
@@ -41,6 +44,15 @@ public:
 	{
 		while (Head)pop_back();
 		cout << "LDestructor:\t" << this << endl;
+	}
+
+	Iterator begin()
+	{
+		return Head;
+	}
+	Iterator end()
+	{
+		return nullptr;
 	}
 
 	//					Adding elements
@@ -159,7 +171,47 @@ public:
 		cout << "Head:\t" << Head << endl;
 
 	}
+	friend class Iterator;
 };
+
+
+class Iterator
+{
+	List::Element* Temp;
+public:
+	Iterator(List::Element* Temp = nullptr) :Temp(Temp)
+	{
+		cout << "ItConstructor:\t" << this << endl;
+	}
+	~Iterator()
+	{
+		cout << "ItDestructor:\t" << this << endl;
+	}
+	Iterator& operator++()
+	{
+		Temp = Temp->pNext;
+		return *this;
+	}
+	bool operator==(const Iterator& other)const
+	{
+		return this->Temp == other.Temp;
+	}
+	bool operator!=(const Iterator& other)const
+	{
+		return this->Temp != other.Temp;
+	}
+	int operator*()
+	{
+		return Temp->Data;
+	}
+	Iterator& operator--()
+	{
+		Temp = Temp->pPrev;
+		return *this;
+	}
+	friend class List::Element;
+};
+
 
 //#define BASE_CHECK
 
@@ -187,7 +239,7 @@ void main()
 #endif // BASE_CHECK
 
 	List list = { 3, 5, 8, 13, 21 };
-	list.print();
+	for (int i : list)cout << i << tab; cout << endl;
 
 
 }
