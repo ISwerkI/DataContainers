@@ -45,7 +45,7 @@ class List
 		{
 			return this->Temp != other.Temp;
 		}
-		int operator*()const
+		data_type operator*()const
 		{
 			return Temp->Data;
 		}
@@ -329,7 +329,7 @@ void main()
 	list1.erase(index);
 	list1.print();
 #endif // BASE_CHECK
-	List<data_type> list = { 3.14, 5.112, 8.11};
+	List<data_type> list = { 2.134};
 	for (data_type i : list)cout << i << tab; cout << endl;
 
 	for (List<data_type>::Iterator it = list.begin(); it != list.end(); it++)
