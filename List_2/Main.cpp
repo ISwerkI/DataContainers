@@ -1,10 +1,10 @@
-#include <iostream>
+п»ї#include <iostream>
 using namespace std;
 
 #define tab "\t"
 #define delimiter "\n-------------------------------------------------"
 
-#define data_type double
+#define data_type int
 
 template<typename T>
 class List
@@ -18,18 +18,18 @@ class List
 		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr) :
 			Data(Data), pNext(pNext), pPrev(pPrev)
 		{
-			cout << "EConstructor:\t" << this << endl;
+			//cout << "EConstructor:\t" << this << endl;
 		}
 		~Element()
 		{
-			cout << "EDestructor:\t" << this << endl;
+			//cout << "EDestructor:\t" << this << endl;
 		}
 		friend class List;
 		friend class Iterator;
 	}
-	*Head, * Tail;	//Экземпляры класса можно объявлять непосредственно после описания класса
-	//В одном выражении можно объявить несколько переменных одного типа, один раз указав тип и перечислив имена объявляемых переменных через запятую.
-	size_t size;//size_t - typedef на "unsigned int".
+	*Head, * Tail;	//Р­РєР·РµРјРїР»СЏСЂС‹ РєР»Р°СЃСЃР° РјРѕР¶РЅРѕ РѕР±СЉСЏРІР»СЏС‚СЊ РЅРµРїРѕСЃСЂРµРґСЃС‚РІРµРЅРЅРѕ РїРѕСЃР»Рµ РѕРїРёСЃР°РЅРёСЏ РєР»Р°СЃСЃР°
+	//Р’ РѕРґРЅРѕРј РІС‹СЂР°Р¶РµРЅРёРё РјРѕР¶РЅРѕ РѕР±СЉСЏРІРёС‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ РїРµСЂРµРјРµРЅРЅС‹С… РѕРґРЅРѕРіРѕ С‚РёРїР°, РѕРґРёРЅ СЂР°Р· СѓРєР°Р·Р°РІ С‚РёРї Рё РїРµСЂРµС‡РёСЃР»РёРІ РёРјРµРЅР° РѕР±СЉСЏРІР»СЏРµРјС‹С… РїРµСЂРµРјРµРЅРЅС‹С… С‡РµСЂРµР· Р·Р°РїСЏС‚СѓСЋ.
+	size_t size;//size_t - typedef РЅР° "unsigned int".
 	class ConstBaseIterator
 	{
 	protected:
@@ -45,7 +45,7 @@ class List
 		{
 			return this->Temp != other.Temp;
 		}
-		data_type operator*()const
+		T operator*()const
 		{
 			return Temp->Data;
 		}
@@ -118,7 +118,7 @@ public:
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
-	List(const std::initializer_list<data_type>& il) :List()
+	List(const std::initializer_list<T>& il) :List()
 	{
 		for (T const* it = il.begin(); it != il.end(); ++it)
 			push_back(*it);
@@ -143,7 +143,7 @@ public:
 	public:
 		ReverseIterator(Element* Temp = nullptr):ConstReverseIterator(Temp){}
 		~ReverseIterator(){}
-		int& operator*()
+		T& operator*()
 		{
 			return ConstBaseIterator::Temp->Data;
 		}
@@ -258,7 +258,7 @@ public:
 		if (index >= size)return;
 		if (index == size - 1)return pop_back();
 		if (index == 0)return pop_front();
-		//1) Доходим до нужного элемента:
+		//1) Р”РѕС…РѕРґРёРј РґРѕ РЅСѓР¶РЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°:
 		Element* Temp;
 		if (index < size / 2)
 		{
@@ -270,10 +270,10 @@ public:
 			Temp = Tail;
 			for (int i = 0; i < size - index - 1; i++)Temp = Temp->pPrev;
 		}
-		//2) Исключаем элемент из списка:
+		//2) РСЃРєР»СЋС‡Р°РµРј СЌР»РµРјРµРЅС‚ РёР· СЃРїРёСЃРєР°:
 		Temp->pPrev->pNext = Temp->pNext;
 		Temp->pNext->pPrev = Temp->pPrev;
-		//3) Удаляем элемент из памяти:
+		//3) РЈРґР°Р»СЏРµРј СЌР»РµРјРµРЅС‚ РёР· РїР°РјСЏС‚Рё:
 		delete Temp;
 
 		//4)Decrement
@@ -288,7 +288,7 @@ public:
 		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
 			cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 		cout << "Tail:\t" << Tail << endl;
-		cout << "Количество элементов в списке: " << size << endl;
+		cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃРїРёСЃРєРµ: " << size << endl;
 	}
 	void reverse_print()const
 	{
@@ -302,17 +302,15 @@ public:
 };
 
 
-
-
-
 //#define BASE_CHECK
+//#define ITERATORS_CHECK
 
 void main()
 {
 	setlocale(LC_ALL, "");
 #ifdef BASE_CHECK
 	int n;
-	cout << "Введите размер списка: "; cin >> n;
+	cout << "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ СЃРїРёСЃРєР°: "; cin >> n;
 	List list1;
 	for (int i = 0; i < n; i++)
 	{
@@ -323,13 +321,18 @@ void main()
 
 	int index;
 	int value;
-	//cout << "Введите индекс доб элемента:\t"; cin >> index;
-	//cout << "Введите значение доб элемента:\t"; cin >> value;
-	cout << "Введите индекс удаляемого элемента:\t"; cin >> index;
+	//cout << "Р’РІРµРґРёС‚Рµ РёРЅРґРµРєСЃ РґРѕР± СЌР»РµРјРµРЅС‚Р°:\t"; cin >> index;
+	//cout << "Р’РІРµРґРёС‚Рµ Р·РЅР°С‡РµРЅРёРµ РґРѕР± СЌР»РµРјРµРЅС‚Р°:\t"; cin >> value;
+	cout << "Р’РІРµРґРёС‚Рµ РёРЅРґРµРєСЃ СѓРґР°Р»СЏРµРјРѕРіРѕ СЌР»РµРјРµРЅС‚Р°:\t"; cin >> index;
 	list1.erase(index);
 	list1.print();
 #endif // BASE_CHECK
-	List<data_type> list = { 2.134};
+
+#ifdef  ITERATORS_CHECK
+
+
+
+	List<data_type> list = { 1,2,4};
 	for (data_type i : list)cout << i << tab; cout << endl;
 
 	for (List<data_type>::Iterator it = list.begin(); it != list.end(); it++)
@@ -342,5 +345,29 @@ void main()
 		cout << *it << tab;
 	}
 	cout << endl;
+#endif //  ITERATORS_CHECKndl;
 
+	List<int> i_list = { 3,5,8,13,21 };
+	for (int i : i_list)cout << i << tab; cout << endl;
+	for (List<int>::ReverseIterator it = i_list.rbegin(); it != i_list.rend(); ++it)
+		cout << *it << tab;
+	cout << endl;
+
+	List<double> d_list = {2.7,3.14,5.8,9.11};
+	for (double i : d_list)cout << i << tab; cout << endl;
+	for (List<double>::ReverseIterator it = d_list.rbegin(); it != d_list.rend(); ++it)
+		cout << *it << tab;
+	cout << endl;
+
+	List<char> c_list = { 's','w','e','r','k' };
+	for (char i : c_list)cout << i << tab; cout << endl;
+	for (List<char>::ReverseIterator it = c_list.rbegin(); it != c_list.rend(); ++it)
+		cout << *it << tab;
+	cout << endl;
+
+	List<std::string> s_list = { "Hello","World","!" };
+	for (std::string i : s_list)cout << i << tab; cout << endl;
+	for (List<std::string>::ReverseIterator it = s_list.rbegin(); it != s_list.rend(); ++it)
+		cout << *it << tab;
+	cout << endl;
 }
