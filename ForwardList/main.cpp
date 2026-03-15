@@ -7,6 +7,9 @@ using std::endl;
 #define tab "\t"
 #define delimiter "\n------------------------------------------------------\n"
 
+/////////////////////////////////////////////////////////////////////////////////////
+///////////				Class declaration (Объявление класса)		////////////////
+
 template<typename T>class ForwardList;
 template<typename T>class Iterator;
 
@@ -37,36 +40,16 @@ public:
 	friend ForwardList<T> operator+(const ForwardList<T>& left, const ForwardList<T>& right);
 };
 
-template <typename T>
-class Iterator
+template <typename T>class Iterator
 {
 	Element<T>* Temp;
 public:
-	Iterator(Element<T>* Temp = nullptr) :Temp(Temp)
-	{
-		cout << "ItConstructor:\t" << this << endl;
-	}
-	~Iterator()
-	{
-		cout << "ItDestructor:\t" << this << endl;
-	}
-	Iterator& operator++()
-	{
-		Temp = Temp->pNext;
-		return *this;
-	}
-	bool operator==(const Iterator<T>& other)const
-	{
-		return this->Temp == other.Temp;
-	}
-	bool operator!=(const Iterator<T>& other)const
-	{
-		return this->Temp != other.Temp;
-	}
-	T& operator*()
-	{
-		return Temp->Data;
-	}
+	Iterator(Element<T>* Temp = nullptr);
+	~Iterator();
+	Iterator& operator++();
+	bool operator==(const Iterator<T>& other)const;
+	bool operator!=(const Iterator<T>& other)const;
+	T& operator*();
 };
 
 template <typename T>int Element<T>::counter = 0;
@@ -103,6 +86,48 @@ public:
 	void reverse();
 	void print()const;
 };
+/////////////////////////////////////////////////////////////////////////////////////
+///////					Class declaration end (Конец объявление класса)		/////////
+
+///------------------------------------------------------------------------------///
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////				Class definition (Определение класса)		////////////////
+// 
+//---------------------------------------------------------------------------------//
+//---------------				ForwardList Metods				--------------------//
+
+template <typename T>Iterator<T>::Iterator(Element<T>* Temp) :Temp(Temp)
+{
+	cout << "ItConstructor:\t" << this << endl;
+}
+template <typename T>Iterator<T>::~Iterator()
+{
+	cout << "ItDestructor:\t" << this << endl;
+}
+template <typename T> Iterator<T>& Iterator<T>::operator++()
+{
+	Temp = Temp->pNext;
+	return *this;
+}
+template <typename T>bool Iterator<T>::operator==(const Iterator<T>& other)const
+{
+	return this->Temp == other.Temp;
+}
+template <typename T> bool Iterator<T>::operator!=(const Iterator<T>& other)const
+{
+	return this->Temp != other.Temp;
+}
+template <typename T> T& Iterator<T>::operator*()
+{
+	return Temp->Data;
+}
+
+//---------------				ForwardList Metods end			--------------------//
+//---------------------------------------------------------------------------------//
+
+//---------------------------------------------------------------------------------//
+//---------------				ForwardList Metods				--------------------/
 template <typename T>
 Element<T>* ForwardList<T>::get_head()const
 {
@@ -170,6 +195,10 @@ ForwardList<T>::~ForwardList()
 	while (Head)pop_front();
 	cout << "LDestructor:\t" << this << endl;
 }
+
+//-------------------			ForwardList Metods	end		------------------------/
+//---------------------------------------------------------------------------------//
+
 //			Operators
 template <typename T>
 ForwardList<T>& ForwardList<T>::operator=(const ForwardList<T>& other)
@@ -318,6 +347,9 @@ ForwardList<T> operator+(const ForwardList<T>& left, const ForwardList<T>& right
 		result.push_back(Temp->Data);
 	return result;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////
+///////////				Class definition (Конец определения класса)		////////////////
 
 //#define BASE_CHECK
 //#define SIZE_CHECK
