@@ -20,21 +20,8 @@ class Element
 	Element<T>* pNext;	//следующий метод
 	static int counter;
 public:
-	Element(T Data, Element<T>* pNext = nullptr) :Data(Data), pNext(pNext)
-	{
-		counter++;
-#ifdef DEBUG
-		cout << "EConstructor:\t" << this << endl;
-#endif // DEBUG
-
-	}
-	~Element()
-	{
-		counter--;
-#ifdef DEBUG
-		cout << "EDestructor:\t" << this << endl;
-#endif // DEBUG
-	}
+	Element(T Data, Element<T>* pNext = nullptr);
+	~Element();
 	friend class ForwardList<T>;
 	friend class Iterator<T>;
 	friend ForwardList<T> operator+(const ForwardList<T>& left, const ForwardList<T>& right);
@@ -93,9 +80,35 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////
 ///////////				Class definition (Определение класса)		////////////////
-// 
+
+
+
 //---------------------------------------------------------------------------------//
-//---------------				ForwardList Metods				--------------------//
+//---------------				Element Metods				--------------------//
+
+template<typename T>Element<T>::Element(T Data, Element<T>* pNext) :Data(Data), pNext(pNext)
+{
+	counter++;
+#ifdef DEBUG
+	cout << "EConstructor:\t" << this << endl;
+#endif // DEBUG
+
+}
+template<typename T>Element<T>::~Element()
+{
+	counter--;
+#ifdef DEBUG
+	cout << "EDestructor:\t" << this << endl;
+#endif // DEBUG
+}
+
+//---------------				Element Metods end				--------------------//
+//---------------------------------------------------------------------------------//
+
+
+
+//---------------------------------------------------------------------------------//
+//---------------				Iterator Metods				--------------------//
 
 template <typename T>Iterator<T>::Iterator(Element<T>* Temp) :Temp(Temp)
 {
@@ -123,7 +136,7 @@ template <typename T> T& Iterator<T>::operator*()
 	return Temp->Data;
 }
 
-//---------------				ForwardList Metods end			--------------------//
+//---------------				Iterator Metods end			--------------------//
 //---------------------------------------------------------------------------------//
 
 //---------------------------------------------------------------------------------//
