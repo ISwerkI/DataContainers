@@ -362,7 +362,7 @@ ForwardList<T> operator+(const ForwardList<T>& left, const ForwardList<T>& right
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-///////////				Class definition (Конец определения класса)		////////////////
+///////////				Class definition end(Конец определения класса)		////////////////
 
 //#define BASE_CHECK
 //#define SIZE_CHECK
