@@ -39,7 +39,6 @@ public:
 	T& operator*();
 };
 
-template <typename T>int Element<T>::counter = 0;
 template <typename T>class ForwardList
 {
 	Element<T>* Head; // Голова списка - является точкой входа в список
@@ -85,6 +84,8 @@ public:
 
 //---------------------------------------------------------------------------------//
 //---------------				Element Metods				--------------------//
+
+template <typename T>int Element<T>::counter = 0;
 
 template<typename T>Element<T>::Element(T Data, Element<T>* pNext) :Data(Data), pNext(pNext)
 {
