@@ -6,6 +6,9 @@ using namespace std;
 
 #define data_type int
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////					Class declaration	(Объявления класса)							////////
+
 template<typename T>
 class List
 {
@@ -112,6 +115,41 @@ public:
 		}
 
 	};
+
+
+	ConstIterator cbegin()const
+	{
+		return Head;
+	}
+	ConstIterator cend()const
+	{
+		return nullptr;
+	}
+	ConstReverseIterator crbegin()const
+	{
+		return Tail;
+	}
+	ConstReverseIterator crend()const
+	{
+		return nullptr;
+	}
+	Iterator begin()
+	{
+		return Head;
+	}
+	Iterator end()
+	{
+		return nullptr;
+	}
+	ReverseIterator rbegin()
+	{
+		return Tail;
+	}
+	ReverseIterator rend()
+	{
+		return nullptr;
+	}
+
 	List()
 	{
 		Head = Tail = nullptr;
@@ -149,38 +187,6 @@ public:
 		}
 	};
 
-	ConstIterator cbegin()const
-	{
-		return Head;
-	}
-	ConstIterator cend()const
-	{
-		return nullptr;
-	}
-	ConstReverseIterator crbegin()const
-	{
-		return Tail;
-	}
-	ConstReverseIterator crend()const
-	{
-		return nullptr;
-	}
-	Iterator begin()
-	{
-		return Head;
-	}
-	Iterator end()
-	{
-		return nullptr;
-	}
-	ReverseIterator rbegin()
-	{
-		return Tail;
-	}
-	ReverseIterator rend()
-	{
-		return nullptr;
-	}
 
 	//					Adding elements
 	void push_front(T Data)
@@ -197,6 +203,26 @@ public:
 			Head = Tail = new Element(Data);
 		else
 			Tail = Tail->pNext = new Element(Data, nullptr, Tail);
+		size++;
+	}
+	void insert(T Data, int index)
+	{
+		if (index >= size)return;
+		if (index == size - 1)return push_back(Data);
+		if (index == 0)return push_front(Data);
+		Element* Temp;
+		if (index < size / 2)
+		{
+			Temp = Head;
+			for (int i = 0; i < index; i++)Temp = Temp->pNext;
+		}
+		else
+		{
+			Temp = Tail;
+			for (int i = 0; i < size - index - 1; i++)Temp = Temp->pPrev;
+		}
+		Temp->pPrev->pNext = Temp->pNext->pPrev =
+			new Element(Data, Temp->pNext, Temp->pPrev);
 		size++;
 	}
 	//				Renoving elements:
@@ -233,26 +259,7 @@ public:
 		}
 		size--;
 	}
-	void insert(T Data, int index)
-	{
-		if (index >= size)return;
-		if (index == size - 1)return push_back(Data);
-		if (index == 0)return push_front(Data);
-		Element* Temp;
-		if (index < size / 2)
-		{
-			Temp = Head;
-			for (int i = 0; i < index; i++)Temp = Temp->pNext;
-		}
-		else
-		{
-			Temp = Tail;
-			for (int i = 0; i < size - index - 1; i++)Temp = Temp->pPrev;
-		}
-		Temp->pPrev->pNext = Temp->pNext->pPrev =
-			new Element(Data, Temp->pNext, Temp->pPrev);
-		size++;
-	}
+	
 	void erase(int index)
 	{
 		if (index >= size)return;
@@ -300,6 +307,19 @@ public:
 	}
 	friend class Iterator;
 };
+
+////////				Class declaration end	(Конец объявления класса)					////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///----------------------------------------------------------------------------------------------///
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////					Class definition	(Определение класса)						////////
+
+
+
+////////				Class definition end	(Конец определения класса)					////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //#define BASE_CHECK
 //#define ITERATORS_CHECK

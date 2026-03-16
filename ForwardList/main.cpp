@@ -147,7 +147,6 @@ void main()
 	cout << endl;
 #endif // RANGE_BASED_FOR_ARRAY
 	ForwardList<std::string> list = { "Hello World!"};
-	ForwardList<std::string> list1 = { "saDASD!"};
 	//list.print();
 	for (std::string i : list)
 	{
