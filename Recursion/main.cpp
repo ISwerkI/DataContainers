@@ -1,6 +1,21 @@
 #include <iostream>
 using namespace std;
 
+class Fibonacci
+{
+	static void Calculate(int n, int a, int b)
+	{
+		if (a > n)return;
+		cout << a << "\t";
+		Calculate(n, b, a + b);
+	}
+public:
+	static void Calculate(int n)
+	{
+		Calculate(n, 0, 1);
+		cout << endl;
+	}
+};
 void Elevator(int floor);
 int Factorial(int value, int factorial);
 int Factorial(int value);
@@ -15,7 +30,7 @@ void main()
 	int n;
 	int a;
 	cout << "¬ведите значение: "; cin >> a; //cin >> n;
-	Fibonacci(a);
+	Fibonacci::Calculate(a);
 	//cout << Power(a,n) << endl;
 	//cout<<Factorial(n)<<endl;
 	//Elevator(n);
