@@ -5,6 +5,8 @@ void Elevator(int floor);
 int Factorial(int value, int factorial);
 int Factorial(int value);
 double Power(double a, int n);
+void Fibonacci(int a);
+void Fibonacci2(int n, int b, int a);
 
 void main()
 {
@@ -12,8 +14,9 @@ void main()
 	cout << "Hello World!";
 	int n;
 	int a;
-	cout << "¬ведите значение: "; cin >> a; cin >> n;
-	cout << Power(a,n) << endl;
+	cout << "¬ведите значение: "; cin >> a;
+	Fibonacci(a);
+	//cout << Power(a,n) << endl;
 	//cout<<Factorial(n)<<endl;
 	//Elevator(n);
 	//main();
@@ -51,6 +54,21 @@ int Factorial(int value)
 double Power(double a, int n)
 {
 	if (n == 0)return 1;
-	else return a * Power(a, n - 1);
+	else if(n > 0) return a * Power(a, n - 1);
+	else if(n < 0) return 1 / a * Power(a, n + 1);
 }
+
+void Fibonacci2(int n, int b, int a)
+{
+	if (a < n+b) return;
+	cout << n + b << endl;
+	Fibonacci2(b, n + b, a - 1);
+}
+
+void Fibonacci(int a)
+{
+	Fibonacci2(0, 1, a);
+}
+
+
 
