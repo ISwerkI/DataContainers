@@ -14,9 +14,9 @@ void main()
 	cout << "Hello World!";
 	int n;
 	int a;
-	cout << "¬ведите значение: "; cin >> a; cin >> n;
-	//Fibonacci(a);
-	cout << Power(a,n) << endl;
+	cout << "¬ведите значение: "; cin >> a; //cin >> n;
+	Fibonacci(a);
+	//cout << Power(a,n) << endl;
 	//cout<<Factorial(n)<<endl;
 	//Elevator(n);
 	//main();
@@ -64,7 +64,7 @@ void Fibonacci2(int n, int b, int a)
 {
 	if (a < n+b) return;
 	cout << n + b << endl;
-	Fibonacci2(b, n + b, a - 1);
+	Fibonacci2(b, n + b, a);
 }
 
 void Fibonacci(int a)
