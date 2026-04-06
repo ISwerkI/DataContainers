@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BinaryTree", "BinaryTree\Bi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Recursion", "Recursion\Recursion.vcxproj", "{D05DCC7A-A9F4-4155-96F3-94338CBC7A73}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FunctionPointers", "FunctionPointers\FunctionPointers.vcxproj", "{726F2643-80D3-4EC0-A813-9968F7AC7CFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -71,6 +73,14 @@ Global
 		{D05DCC7A-A9F4-4155-96F3-94338CBC7A73}.Release|x64.Build.0 = Release|x64
 		{D05DCC7A-A9F4-4155-96F3-94338CBC7A73}.Release|x86.ActiveCfg = Release|Win32
 		{D05DCC7A-A9F4-4155-96F3-94338CBC7A73}.Release|x86.Build.0 = Release|Win32
+		{726F2643-80D3-4EC0-A813-9968F7AC7CFE}.Debug|x64.ActiveCfg = Debug|x64
+		{726F2643-80D3-4EC0-A813-9968F7AC7CFE}.Debug|x64.Build.0 = Debug|x64
+		{726F2643-80D3-4EC0-A813-9968F7AC7CFE}.Debug|x86.ActiveCfg = Debug|Win32
+		{726F2643-80D3-4EC0-A813-9968F7AC7CFE}.Debug|x86.Build.0 = Debug|Win32
+		{726F2643-80D3-4EC0-A813-9968F7AC7CFE}.Release|x64.ActiveCfg = Release|x64
+		{726F2643-80D3-4EC0-A813-9968F7AC7CFE}.Release|x64.Build.0 = Release|x64
+		{726F2643-80D3-4EC0-A813-9968F7AC7CFE}.Release|x86.ActiveCfg = Release|Win32
+		{726F2643-80D3-4EC0-A813-9968F7AC7CFE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
