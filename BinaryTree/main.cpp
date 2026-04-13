@@ -113,26 +113,24 @@ private:
 	{
 		if (Root == nullptr)return;
 		//Функция abs() абсолютное значение - модкль числа.
-		if (abs(count(Root->pLeft) - count(Root->pRight)) > 2)
+		if (abs(count(Root->pLeft) - count(Root->pRight)) < 2)return;
+		if (count(Root->pLeft) > count(Root->pRight))
 		{
-			if (count(Root->pLeft) > count(Root->pRight))
-			{
-				if (Root->pRight == nullptr)Root->pRight = new Element(Root->Data);
-				else							insert(Root->Data, Root->pRight);
-				Root->Data = maxValue(Root->pLeft);
-				erase(maxValue(Root->pLeft), Root->pLeft);
-			}
-			else
-			{
-				if (Root->pLeft == nullptr)Root->pRight = new Element(Root->Data);
-				else							insert(Root->Data, Root->pLeft);
-
-				Root->Data = minValue(Root->pRight);
-				erase(minValue(Root->pRight), Root->pRight);
-			}
+			if (Root->pRight == nullptr)Root->pRight = new Element(Root->Data);
+			else							insert(Root->Data, Root->pRight);
+			Root->Data = maxValue(Root->pLeft);
+			erase(maxValue(Root->pLeft), Root->pLeft);
+		}
+		if (count(Root->pLeft) < count(Root->pRight))
+		{
+			if (Root->pLeft == nullptr)Root->pLeft = new Element(Root->Data);
+			else							insert(Root->Data, Root->pLeft);
+			Root->Data = minValue(Root->pRight);
+			erase(minValue(Root->pRight), Root->pRight);
 		}
 		balance(Root->pLeft);
 		balance(Root->pRight);
+		balance(Root);
 	}
 	void clear(Element*& Root)
 	{
@@ -429,8 +427,10 @@ void main()
 	//tree.print();
 #endif // PERFORMANCE_CHECK
 
-	Tree tree = { 55,34,21,13,8,5,3,2,1,1,0 };
+	//Tree tree = {16,25,32,50,58,75,85};
+	Tree tree = {55,34,21,13,8,5,3,2,1};
 	tree.tree_print();
 	tree.balance();
+	cout << delimeter << endl;
 	tree.tree_print();
 }
