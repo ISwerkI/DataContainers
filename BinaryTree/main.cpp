@@ -54,6 +54,10 @@ public:
 	{
 		cout << "TDestructor:\t" << this << endl;
 	}
+	void balance()
+	{
+		balance(Root);
+	}
 	void clear()
 	{
 		clear(Root);
@@ -95,17 +99,40 @@ public:
 		print(Root);
 		cout << endl;
 	}
-	void depth_print(int depth)const
+	void depth_print(int depth, int interval)const
 	{
-		depth_print(Root, depth-1);
+		depth_print(Root, depth, interval);
 		cout << endl;
 	}
 	void tree_print()const
 	{
-		tree_print(Root,depth(), 0);
-		cout << endl;
+		tree_print(0, depth() * 8);
 	}
 private:
+	void balance(Element* Root)
+	{
+		if (Root == nullptr)return;
+		//Функция abs() абсолютное значение - модкль числа.
+		if (abs(count(Root->pLeft) - count(Root->pRight)) > 2)
+		{
+			if (count(Root->pLeft) > count(Root->pRight))
+			{
+				if (Root->pRight == nullptr)Root->pRight = new Element(Root->Data);
+				else							insert(Root->Data, Root->pRight);
+				Root->Data = maxValue(Root->pLeft);
+				erase(maxValue(Root->pLeft), Root->pLeft);
+			}
+			else
+			{
+				if (Root->pLeft == nullptr)Root->pRight = new Element(Root->Data);
+				else							insert(Root->Data, Root->pLeft);
+				Root->Data = minValue(Root->pRight);
+				erase(minValue(Root->pRight), Root->pRight);
+			}
+		}
+		balance(Root->pLeft);
+		balance(Root->pRight);
+	}
 	void clear(Element*& Root)
 	{
 		if (Root == nullptr)return;
@@ -198,8 +225,25 @@ private:
 		cout << Root->Data << "\t";
 		print(Root->pRight);
 	}
-
-	void depth_print(Element* Root, int depth)const
+	void depth_print(Element* Root, int depth, int interval = 8)const
+	{
+		cout.width(interval);
+		if (Root == nullptr)
+		{
+			cout << "";
+			return;
+		}
+		if (depth == 0)
+		{
+			cout << Root->Data;
+			cout.width(interval);
+			cout << "";
+			return;
+		}
+		depth_print(Root->pLeft, depth - 1, interval);
+		depth_print(Root->pRight, depth - 1, interval);
+	}
+	/*void depth_print(Element* Root, int depth)const
 	{
 		if (Root == nullptr)return;
 		if (depth == 0) cout << Root->Data << "\t\t";
@@ -207,8 +251,8 @@ private:
 		depth_print(Root->pLeft, depth - 1);
 		depth_print(Root->pRight, depth - 1);
 		return;
-	}
-	void tree_print(Element* Root, int depth,int i)const
+	}*/
+	/*void tree_print(Element* Root, int depth, int i)const
 	{
 		if (Root == nullptr)return;
 		if (i > depth)return;
@@ -216,6 +260,17 @@ private:
 		depth_print(i);
 		cout << endl;
 		tree_print(Root, depth, i + 1);
+	}*/
+	void tree_print(int depth, int interval = 8)const
+	{
+		if (depth == this->depth())return;
+		//int interval = (this->depth() - depth) * 8 + 1;
+		//cout.width(interval / 4);		cout << "";
+		depth_print(depth, interval);
+		cout << endl;
+		cout << endl;
+		cout << endl;
+		tree_print(depth + 1, interval / 2);
 	}
 };
 
@@ -255,7 +310,7 @@ void measure(const char message[], T(Tree::*function)()const, const Tree& tree)
 
 //#define BASE_CHECK
 //#define ERASE_CHECK
-#define PERFORMANCE_CHECK
+//#define PERFORMANCE_CHECK
 
 void main()
 {
@@ -318,7 +373,7 @@ void main()
 
 			25,				75,
 
-		16,		32,		64,		85, 91, 98
+		16,		32,		64,		85,91
 	};
 	/*for (int i = 0; i < n; i++)
 	{
@@ -333,8 +388,8 @@ void main()
 	measure("Количество элементов дерева: ", &(Tree::count), tree);
 	measure("Среднее-арифметическое элементов дерева: ", &(Tree::avg), tree);
 	measure("Глубина дерева: ", &(Tree::depth), tree);
-	cout << "Введите глубину, которую желаете вывести: "; cin >> n;
-	tree.depth_print(n);
+	//cout << "Введите глубину, которую желаете вывести: "; cin >> n;
+	tree.tree_print();
 	
 	
 	/*start = clock();
@@ -373,4 +428,8 @@ void main()
 	//tree.print();
 #endif // PERFORMANCE_CHECK
 
+	Tree tree = { 55,34,21,13,8,5,3,2,1,1,0 };
+	tree.tree_print();
+	tree.balance();
+	tree.tree_print();
 }
