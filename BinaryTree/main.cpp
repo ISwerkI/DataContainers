@@ -126,6 +126,7 @@ private:
 			{
 				if (Root->pLeft == nullptr)Root->pRight = new Element(Root->Data);
 				else							insert(Root->Data, Root->pLeft);
+
 				Root->Data = minValue(Root->pRight);
 				erase(minValue(Root->pRight), Root->pRight);
 			}
